@@ -6,9 +6,10 @@
 <body>
     <h1>Welcome to the Placement Test</h1>
     <form method="post">
+
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Start Test</button>
+        <button type="submit">Start your test</button>
     </form>
 </body>
 </html>

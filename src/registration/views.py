@@ -36,7 +36,7 @@ def SignupPage(request):
                 mydb = create_db_connection(DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
                 save_user(mydb, name, uname, pass1, email, age)
                 login(request, my_user)
-                url = reverse('start_quiz') + f'?user={my_user}'
+                url = reverse('submit_answers') + f'?user={my_user}'
                 return HttpResponseRedirect(url)
             except IntegrityError:
                 return HttpResponse("An error occurred while creating your account. Please try again.")

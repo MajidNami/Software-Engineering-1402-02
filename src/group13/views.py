@@ -5,12 +5,12 @@ from .forms import UserForm, QuestionForm, ChoiceForm
 def home(request):
     if request.method == "POST":
         form = UserForm(request.POST)
-        if form.is_valid():
+        #if form.is_valid():
             #user = form.cleaned_data['user']
-            user = request.user
-            print(user)
-            questions = Question.objects.all()
-            return render(request, 'questions.html', {'questions': questions, 'user': user})
+        user = request.user
+        print(user)
+        questions = Question.objects.all()
+        return render(request, 'questions.html', {'questions': questions, 'user': user})
     else:
         form = UserForm()
     return render(request, 'home.html', {'form': form})
@@ -30,7 +30,7 @@ def submit_answers(request):
                     score += 1
         UserResult.objects.create(user=user, score=score)
         return render(request, 'result.html', {'user': user, 'score': score, 'total_questions': Question.objects.count()})
-    return redirect('home')
+    return redirect('start_quiz')
 
 def add_question(request):
     if request.method == 'POST':
