@@ -1,17 +1,15 @@
 package com.softwareEngineering.chatServer.entity;
 
 import com.softwareEngineering.chatServer.enumeration.UserGrade;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
-@Entity
 @Setter
 @Getter
+@Entity
 public class GradeInfo {
 
     @Id

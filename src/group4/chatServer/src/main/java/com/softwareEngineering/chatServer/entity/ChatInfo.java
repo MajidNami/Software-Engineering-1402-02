@@ -1,20 +1,16 @@
 package com.softwareEngineering.chatServer.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import java.util.Date;
-import java.util.List;
 
-@Entity
 @Setter
 @Getter
+@Component
+@Entity
 public class ChatInfo {
 
     @Id
