@@ -6,7 +6,9 @@ def home(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.cleaned_data['user']
+            #user = form.cleaned_data['user']
+            user = request.user
+            print(user)
             questions = Question.objects.all()
             return render(request, 'questions.html', {'questions': questions, 'user': user})
     else:
@@ -15,7 +17,9 @@ def home(request):
 
 def submit_answers(request):
     if request.method == "POST":
-        user = request.POST['user']
+        #user = request.POST['user']
+        user = request.user
+        print(user)
         score = 0
         for key, value in request.POST.items():
             if key.startswith('question_'):
