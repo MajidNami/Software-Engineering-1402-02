@@ -2,7 +2,7 @@ from django import forms
 from .models import Question, Choice
 
 class UserForm(forms.Form):
-    user = forms.CharField(max_length=100)
+    user_name = forms.CharField(max_length=100)
 
 class QuestionForm(forms.ModelForm):
     class Meta:
