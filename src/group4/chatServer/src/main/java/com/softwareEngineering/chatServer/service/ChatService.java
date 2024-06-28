@@ -1,6 +1,8 @@
 package com.softwareEngineering.chatServer.service;
 
+import com.softwareEngineering.chatServer.Exception.PartnerNotFoundException;
 import com.softwareEngineering.chatServer.entity.ChatInfo;
+
 import com.softwareEngineering.chatServer.entity.ChatRequestInfo;
 import com.softwareEngineering.chatServer.entity.GradeInfo;
 import com.softwareEngineering.chatServer.entity.User;
@@ -45,9 +47,11 @@ public class ChatService {
             newRequest.setUserId(user.getId());
             newRequest.setCreationDate(new Date());
             chatRequestService.addChatRequest(newRequest);
-        } else {
-            //todo
+            throw new PartnerNotFoundException("We are currently unable to find a suitable partner for you," +
+                    " but your request has been saved in the waiting list");
         }
+        //todo
+
 
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
-@Component
 @Entity
 public class ChatInfo {
 
