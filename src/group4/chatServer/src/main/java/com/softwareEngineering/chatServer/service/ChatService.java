@@ -7,7 +7,6 @@ import com.softwareEngineering.chatServer.entity.ChatInfo;
 import com.softwareEngineering.chatServer.entity.ChatRequestInfo;
 import com.softwareEngineering.chatServer.entity.GradeInfo;
 import com.softwareEngineering.chatServer.entity.User;
-import com.softwareEngineering.chatServer.enumeration.UserGrade;
 import com.softwareEngineering.chatServer.repository.ChatInfoRepository;
 import com.softwareEngineering.chatServer.repository.ChatRequestInfoRepository;
 import com.softwareEngineering.chatServer.repository.GradeInfoRepository;
@@ -47,7 +46,7 @@ public class ChatService {
     public StartChatResponseDto startChat(RequestDto dto) {
         User user = userRepository.findByUsername(dto.getUsername());
         GradeInfo gradeInfo = gradeInfoRepository.findByUserId(user.getId());
-        UserGrade grade = UserGrade.A;
+        String grade = "A";
         if (gradeInfo != null) {
             grade = gradeInfo.getGrade();
         }

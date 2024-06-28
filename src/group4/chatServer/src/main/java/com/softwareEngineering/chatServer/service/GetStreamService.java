@@ -3,19 +3,20 @@ package com.softwareEngineering.chatServer.service;
 import io.getstream.chat.java.exceptions.StreamException;
 import io.getstream.chat.java.models.Channel;
 import io.getstream.chat.java.models.User;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Component
+@Setter
+@AllArgsConstructor
 public class GetStreamService {
-
-    private String secretKey;
 
     public String generateToken(String userId) {
         return User.createToken(userId, null, null);
     }
 
     public void createChannel(String channelId) throws StreamException {
-
         var gandalf =
                 User.UserRequestObject.builder()
                         .id("aut")

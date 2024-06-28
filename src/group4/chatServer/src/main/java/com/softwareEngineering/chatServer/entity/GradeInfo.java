@@ -1,6 +1,5 @@
 package com.softwareEngineering.chatServer.entity;
 
-import com.softwareEngineering.chatServer.enumeration.UserGrade;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -17,5 +16,5 @@ public class GradeInfo {
 
     private int userId;
 
-    private UserGrade grade;
+    private String grade;
 }

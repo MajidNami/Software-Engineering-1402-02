@@ -3,7 +3,6 @@ package com.softwareEngineering.chatServer.service;
 import com.softwareEngineering.chatServer.entity.ChatRequestInfo;
 import com.softwareEngineering.chatServer.entity.GradeInfo;
 import com.softwareEngineering.chatServer.entity.User;
-import com.softwareEngineering.chatServer.enumeration.UserGrade;
 import com.softwareEngineering.chatServer.repository.ChatRequestInfoRepository;
 import com.softwareEngineering.chatServer.repository.GradeInfoRepository;
 import com.softwareEngineering.chatServer.repository.UserRepository;
@@ -20,7 +19,7 @@ public class ChatRequestService {
     GradeInfoRepository gradeInfoRepository;
     UserRepository userRepository;
 
-    public ChatRequestInfo findTopRequestWithSpecificGrade(UserGrade grade, int requestingUserId) {
+    public ChatRequestInfo findTopRequestWithSpecificGrade(String grade, int requestingUserId) {
         List<ChatRequestInfo> allChatRequestInfoList = chatRequestInfoRepository.findByRespondedFalseOrderByCreationDateAsc();
         for (ChatRequestInfo request : allChatRequestInfoList) {
             if (request.getUserId() != requestingUserId) {
@@ -33,7 +32,7 @@ public class ChatRequestService {
         return null;
     }
 
-    public User findPartnerByGrade(UserGrade grade, int requestingUserId) {
+    public User findPartnerByGrade(String grade, int requestingUserId) {
         ChatRequestInfo request = findTopRequestWithSpecificGrade(grade, requestingUserId);
         if (request == null) {
             return null;
@@ -41,7 +40,7 @@ public class ChatRequestService {
         return userRepository.findById(request.getUserId());
     }
 
-    public Integer findPartnerIdByGrade(UserGrade grade, int requestingUserId) {
+    public Integer findPartnerIdByGrade(String grade, int requestingUserId) {
         ChatRequestInfo request = findTopRequestWithSpecificGrade(grade, requestingUserId);
         if (request == null) {
             return null;
