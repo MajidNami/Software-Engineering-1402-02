@@ -49,7 +49,8 @@ public class ChatRequestService {
         return request.getUserId();
     }
 
-    public void addChatRequest(ChatRequestInfo requestInfo){
+    public void addChatRequest(ChatRequestInfo requestInfo) {
         chatRequestInfoRepository.save(requestInfo);
     }
+
 }

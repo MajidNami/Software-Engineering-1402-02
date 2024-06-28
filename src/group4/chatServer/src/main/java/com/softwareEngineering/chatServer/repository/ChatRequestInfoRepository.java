@@ -9,11 +9,13 @@ import java.util.List;
 @Repository
 public interface ChatRequestInfoRepository extends CrudRepository<ChatRequestInfo, Integer> {
 
-    List<ChatRequestInfo> findByUserId(int userId);
+    public List<ChatRequestInfo> findByUserId(int userId);
 
-    List<ChatRequestInfo> findByRespondedFalse();
+    public List<ChatRequestInfo> findByRespondedFalse();
 
-    List<ChatRequestInfo> findByRespondedFalseOrderByCreationDateAsc();
+    public List<ChatRequestInfo> findByRespondedFalseOrderByCreationDateAsc();
 
-    List<ChatRequestInfo> deleteByUserId(int UserId);
+    public List<ChatRequestInfo> deleteByUserId(int UserId);
+
+
 }
