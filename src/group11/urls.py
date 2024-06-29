@@ -3,6 +3,7 @@ from .views import (
     HomepageView,
     AuthorListView, AuthorDetailView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView,
     CategoryListView, CategoryDetailView, CategoryCreateView, CategoryUpdateView, CategoryDeleteView,
+    CategoryArticlesView,
     ArticleListView, ArticleDetailView, ArticleCreateView, ArticleUpdateView, ArticleDeleteView,
     CommentCreateView, CommentListView, CommentDeleteView,
     NotesListView, NotesDetailView, NotesCreateView, NotesUpdateView, NotesDeleteView
@@ -10,6 +11,7 @@ from .views import (
 
 urlpatterns = [
     path('', HomepageView, name='homepage'),
+
     path('authors/', AuthorListView, name='author_list'),
     path('authors/<int:pk>/', AuthorDetailView, name='author_detail'),
     path('authors/new/', AuthorCreateView, name='author_create'),
@@ -21,6 +23,7 @@ urlpatterns = [
     path('categories/new/', CategoryCreateView, name='category_create'),
     path('categories/<int:pk>/edit/', CategoryUpdateView, name='category_update'),
     path('categories/<int:pk>/delete/', CategoryDeleteView, name='category_delete'),
+    path('categories/<int:category_id>/show', CategoryArticlesView, name='category_articles'),
 
 
     path('articles/', ArticleListView, name='article_list'),

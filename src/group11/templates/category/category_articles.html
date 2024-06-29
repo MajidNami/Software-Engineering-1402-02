@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Author List</title>
+    <title>Articles in {{ category.name }}</title>
     <style>
         body {
         font-family: Arial, sans-serif;
@@ -40,49 +40,47 @@
         }
 
         main {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
-            background-color: #fff;
+        }
+
+        .articles {
+            margin-bottom: 2rem;
+        }
+
+        .articles-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .article-card {
+            background: #fff;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            padding: 1rem;
+            width: calc(33.333% - 2rem);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
 
-        .author-list {
-            padding: 2rem;
+        .article-card:hover {
+            transform: scale(1.02);
         }
 
-        .author-list ul {
-            list-style: none;
-            padding: 0;
+        .article-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
         }
 
-        .author-list li {
+        .article-card h3 {
             margin: 0.5rem 0;
         }
 
-        .author-list li a {
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 1.2rem;
-        }
-
-        .author-list li a:hover {
-            text-decoration: underline;
-        }
-
-        .add-author {
-            display: inline-block;
-            margin-top: 1rem;
-            text-decoration: none;
-            color: #fff;
-            background-color: #007BFF;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-
-        .add-author:hover {
-            background-color: #0056b3;
+        .article-card p {
+            margin: 0.2rem 0;
         }
 
         footer {
@@ -110,16 +108,21 @@
     </header>
 
     <main>
-        <section class="author-list">
-            <h2>Authors List</h2>
-            <ul>
-                {% for author in authors %}
-                    <li>
-                        <a href="{% url 'author_detail' author.pk %}">{{ author.name }}</a>
-                    </li>
+        <section class="articles">
+            <h2>Articles in {{ category.name }}</h2>
+            <div class="articles-list">
+                {% for article in articles %}
+                    <div class="article-card">
+                        {% if article.picture %}
+                            <img src="{{ article.picture.url }}" alt="{{ article.title }}">
+                        {% endif %}
+                        <h3><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h3>
+                        <p>Category: {{ article.category.name }}</p>
+                        <p>Author: {{ article.author.name }}</p>
+                        <p>{{ article.published_date|date:"F d, Y" }}</p>
+                    </div>
                 {% endfor %}
-            </ul>
-            <a href="{% url 'author_create' %}" class="add-author">Add new author</a>
+            </div>
         </section>
     </main>
 

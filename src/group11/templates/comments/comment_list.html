@@ -1,19 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comments for {{ article.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments-section {
+            padding: 2rem;
+        }
+
+        .comments-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comments-section li {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .comments-section li strong {
+            font-size: 1.2rem;
+        }
+
+        .comments-section li p {
+            margin: 0.5rem 0;
+        }
+
+        .comments-section li small {
+            color: #888;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Comments for "{{ article.title }}"</h1>
-    <ul>
-        {% for comment in comments %}
-            <li>
-                <strong>{{ comment.author_name }} said:</strong>
-                <p>{{ comment.content }}</p>
-                <p><small>Posted on {{ comment.created_at }}</small></p>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'article_detail' article.pk %}">Back to Article</a>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'author_list' %}">Authors</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="comments-section">
+            <h1>Comments for "{{ article.title }}"</h1>
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <strong>{{ comment.author_name }} said:</strong>
+                        <p>{{ comment.content }}</p>
+                        <p><small>Posted on {{ comment.created_at }}</small></p>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'article_detail' article.pk %}" class="back-link">Back to Article</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Newspaper. All rights reserved.</p>
+    </footer>
 </body>
 </html>

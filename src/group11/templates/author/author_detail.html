@@ -1,14 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Author Detail</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ author.name }} - Author Detail</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-detail {
+            padding: 2rem;
+        }
+
+        .author-detail h2 {
+            margin-top: 0;
+        }
+
+        .bio {
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .email {
+            font-size: 1rem;
+            margin: 1rem 0;
+            color: #555;
+        }
+
+        .email a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .email a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            margin-top: 2rem;
+        }
+
+        .actions a {
+            display: inline-block;
+            margin-right: 1rem;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+
+        .actions .delete {
+            background-color: #d9534f;
+        }
+
+        .actions .delete:hover {
+            background-color: #c9302c;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>{{ author.name }}</h1>
-    <p>{{ author.bio }}</p>
-    <p>{{ author.email }}</p>
-    <a href="{% url 'author_update' author.pk %}">Edit</a><br>
-    <a href="{% url 'author_delete' author.pk %}">Delete</a><br>
-    <a href="{% url 'author_list' %}">Back to list</a>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'article_list' %}">Articles</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="author-detail">
+            <h2>About {{ author.name }}</h2>
+            <p class="bio">{{ author.bio }}</p>
+            <p class="email">Email: <a href="mailto:{{ author.email }}">{{ author.email }}</a></p>
+            <div class="actions">
+                <a href="{% url 'author_update' author.pk %}" class="edit">Edit</a>
+                <a href="{% url 'author_delete' author.pk %}" class="delete">Delete</a>
+                <a href="{% url 'author_list' %}" class="back">Back to list</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Newspaper. All rights reserved.</p>
+    </footer>
 </body>
 </html>

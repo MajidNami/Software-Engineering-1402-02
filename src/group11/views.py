@@ -99,6 +99,16 @@ def CategoryDeleteView(request, pk):
     return render(request, 'category/category_confirm_delete.html', {'category': category})
 
 
+def CategoryArticlesView(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    articles = Article.objects.filter(category=category)
+    context = {
+        'category': category,
+        'articles': articles,
+    }
+    return render(request, 'category/category_articles.html', context)
+
+
 def ArticleListView(request):
     articles = Article.objects.all()
     return render(request, 'articles/article_list.html', {'articles': articles})
@@ -106,7 +116,8 @@ def ArticleListView(request):
 
 def ArticleDetailView(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    return render(request, 'articles/article_detail.html', {'article': article})
+    comments = article.comments.all()
+    return render(request, 'articles/article_detail.html', {'article': article, 'comments': comments})
 
 
 def ArticleCreateView(request):
