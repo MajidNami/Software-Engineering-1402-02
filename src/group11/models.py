@@ -55,7 +55,7 @@ class Comment(models.Model):
 
 class Notes(models.Model):
     title = models.CharField(max_length=255)
-    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='notes')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

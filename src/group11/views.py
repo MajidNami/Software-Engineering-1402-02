@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from .models import Author, Category, Article, Comment, Notes
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import AuthorForm, CategoryForm, ArticleForm, CommentForm, NotesForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -177,7 +178,10 @@ class CommentDeleteView(DeleteView):
     success_url = reverse_lazy('article_list')
 
 
+@login_required
 def NotesListView(request):
+    # user = request.user
+    # notes = Notes.objects.filter(user=user)
     notes = Notes.objects.all()
     return render(request, 'notes/notes_list.html', {'notes': notes})
 
