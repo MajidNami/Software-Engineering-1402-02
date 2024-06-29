@@ -29,4 +29,4 @@ class CommentForm(forms.ModelForm):
 class NotesForm(forms.ModelForm):
     class Meta:
         model = Notes
-        fields = ['title', 'user', 'content']
+        fields = ['title', 'content']

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ note.title }}</title>
+    <title>{% if form.instance.pk %}Edit{% else %}New{% endif %} Note</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,50 +47,55 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .note-details h1 {
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form textarea {
             margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
-        .note-details p {
-            margin-bottom: 1rem;
-        }
-
-        .note-details p small {
-            color: #777;
-        }
-
-        .actions {
-            margin-top: 1.5rem;
-        }
-
-        .actions a,
-        .actions button {
-            display: inline-block;
-            margin-right: 1rem;
+        form button {
             padding: 0.5rem 1rem;
             color: #fff;
-            text-decoration: none;
-            border: none;
             background-color: #007BFF;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
-        .actions button:hover,
-        .actions a:hover {
+        form button:hover {
             background-color: #0056b3;
         }
 
-        .actions form {
-            display: inline;
+        .back-link {
+            display: block;
+            margin-top: 1rem;
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
         }
 
         footer {
             background-color: #333;
             color: #fff;
             text-align: center;
-            padding: 0.2rem;
+            padding: 1rem;
             position: fixed;
             bottom: 0;
             width: 100%;
@@ -109,15 +114,14 @@
         </nav>
     </header>
 
-    <main class="note-details">
-        <h1>{{ note.title }}</h1>
-        <p>{{ note.content }}</p>
-        <p><small>Created on: {{ note.created_at }}</small></p>
-        <div class="actions">
-            <a href="{% url 'note_update' note.pk %}">Edit</a>
-            <a href="{% url 'note_delete' note.pk %}">Delete</a>
-            <a href="{% url 'note_list' %}">Back to Notes List</a>
-        </div>
+    <main>
+        <h1>{% if form.instance.pk %}Edit{% else %}New{% endif %} Note</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+        <a href="{% url 'note_list' %}" class="back-link">Back to list</a>
     </main>
 
     <footer>

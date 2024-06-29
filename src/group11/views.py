@@ -191,14 +191,18 @@ def NotesDetailView(request, pk):
     return render(request, 'notes/notes_detail.html', {'note': note})
 
 
+@login_required
 def NotesCreateView(request):
     if request.method == 'POST':
         form = NotesForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('notes_list')
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
+            return redirect('note_list')
     else:
         form = NotesForm()
+
     return render(request, 'notes/notes_form.html', {'form': form})
 
 
@@ -208,7 +212,7 @@ def NotesUpdateView(request, pk):
         form = NotesForm(request.POST, instance=note)
         if form.is_valid():
             form.save()
-            return redirect('notes_detail', pk=note.pk)
+            return redirect('note_detail', pk=note.pk)
     else:
         form = NotesForm(instance=note)
     return render(request, 'notes/notes_form.html', {'form': form})
@@ -216,5 +220,7 @@ def NotesUpdateView(request, pk):
 
 def NotesDeleteView(request, pk):
     note = get_object_or_404(Notes, pk=pk)
-    note.delete()
-    return redirect('notes_list')
+    if request.method == 'POST':
+        note.delete()
+        return redirect('note_list')
+    return render(request, 'notes/note_confirm_delete.html', {'note': note})
