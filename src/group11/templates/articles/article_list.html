@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Article List</title>
+</head>
+<body>
+    <h1>Article List</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a>
+{#                <p>Author: {{ article.author.name }}</p>#}
+{#                <p>Category: {{ article.category.name }}</p>#}
+{#                <p>{{ article.content|truncatewords:30 }}</p>#}
+{#                {% if article.picture %}#}
+{#                    <img src="{{ article.picture.url }}" alt="{{ article.title }}">#}
+{#                {% endif %}#}
+{#                <p>Published on: {{ article.published_date }}</p>#}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'article_create' %}">Add new article</a>
+</body>
+</html>

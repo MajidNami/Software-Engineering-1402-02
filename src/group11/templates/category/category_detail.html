@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category Detail</title>
+</head>
+<body>
+    <h1>{{ category.name }}</h1>
+    <p>{{ category.description }}</p>
+    <a href="{% url 'category_update' category.pk %}">Edit</a><br>
+    <a href="{% url 'category_delete' category.pk %}">Delete</a><br>
+    <a href="{% url 'category_list' %}">Back to list</a>
+</body>
+</html>

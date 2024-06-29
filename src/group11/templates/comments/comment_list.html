@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comments for {{ article.title }}</title>
+</head>
+<body>
+    <h1>Comments for "{{ article.title }}"</h1>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment.author_name }} said:</strong>
+                <p>{{ comment.content }}</p>
+                <p><small>Posted on {{ comment.created_at }}</small></p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'article_detail' article.pk %}">Back to Article</a>
+</body>
+</html>
