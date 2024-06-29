@@ -41,9 +41,6 @@ const MessagingChannelList = ({ children, error = false, loading, channelID, onC
   if (error) {
     return (
       <ListHeaderWrapper>
-        <div className='messaging__channel-list__message'>
-          Error loading conversations, please try again momentarily.
-        </div>
       </ListHeaderWrapper>
     );
   }

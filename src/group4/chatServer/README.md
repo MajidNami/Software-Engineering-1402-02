@@ -6,5 +6,5 @@ Is your core product something that would benefit from the increased engagement 
 To run on your machine simply run:
 
 ```
-yarn && yarn start
+docker compose up -d
 ```
