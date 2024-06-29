@@ -180,8 +180,6 @@ const MessagingChannelHeader = (props) => {
       )}
       <div className='messaging__channel-header__right'>
         <TypingIndicator />
-        {channelName !== 'Social Demo' &&
-          (!isEditing ? <ChannelInfoIcon {...{ isEditing, setIsEditing }} /> : <ChannelSaveIcon />)}
       </div>
     </div>
   );

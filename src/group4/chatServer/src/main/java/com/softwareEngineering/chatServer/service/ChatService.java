@@ -80,6 +80,13 @@ public class ChatService {
             String token = getStreamService.generateToken(user.getUsername());
             requestInfo.setResponded(true);
             chatRequestInfoRepository.save(requestInfo);
+            User contact = userRepository.findById(requestInfo.getUserId());
+            ChatInfo chatInfo = new ChatInfo();
+            chatInfo.setFirstUserId(contact.getId());
+            chatInfo.setFirstUsername(contact.getUsername());
+            chatInfo.setSecondUsername(user.getUsername());
+            chatInfo.setSecondUserId(user.getId());
+            chatInfoRepository.save(chatInfo);
             StartChatResponseDto responseDto = new StartChatResponseDto();
             responseDto.setChannelId(channelId);
             responseDto.setToken(token);

@@ -29,9 +29,9 @@ const MessagingChannelList = ({ children, error = false, loading, channelID, onC
         <div className='messaging__channel-list__header'>
           <Avatar image={image} name={name} size={40} />
           <div className='messaging__channel-list__header__name'>{name || id}</div>
-          <button className='messaging__channel-list__header__button' onClick={onCreateChannel}>
-            <CreateChannelIcon />
-          </button>
+          {/*<button className='messaging__channel-list__header__button' onClick={onCreateChannel}>*/}
+          {/*  <CreateChannelIcon />*/}
+          {/*</button>*/}
         </div>
         {children}
       </div>
