@@ -1,0 +1,27 @@
+services:
+  backend:
+    container_name: dockerized_backend
+    build: backend
+    restart: always
+    networks:
+      - react-spring
+    ports:
+      - "8080:8080"
+  frontend:
+    depends_on:
+      - backend
+    container_name: dockerized_frontend
+    build:
+      context: frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/code/src
+      - /project/node_modules
+    networks:
+      - react-spring
+    expose:
+      - 3306
+      - 33060
+networks:
+  react-spring: {}
