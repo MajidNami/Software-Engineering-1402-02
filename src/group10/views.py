@@ -1,14 +1,9 @@
-from django.contrib.auth import login
-from django.contrib.auth.models import User
 import requests
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
 from django.shortcuts import render
 import base64
-
+from .models import Course, Video, Exam, Question
 from .forms import SignUpForm, SignInForm, CourseForm, VideoForm, ExamForm, QuestionForm
 
 
@@ -55,12 +50,10 @@ def signup(request):
 
 
 def signin(request):
-    signup_in = SignInForm(request.POST)
-    if signup_in.is_valid():
-
-        print("))))))))))))))))))))))))))))))))))))))))))))))))))))))))0")
-        email = signup_in.cleaned_data.get('email')
-        password = signup_in.cleaned_data.get('password')
+    sign_in = SignInForm(request.POST)
+    if sign_in.is_valid():
+        email = sign_in.cleaned_data.get('email')
+        password = sign_in.cleaned_data.get('password')
 
         url_str = "https://localhost:7071/teacher/SignInWithEmail"
         response = requests.post(url_str, json={'email': email, 'password': password}, verify=False)
@@ -75,7 +68,7 @@ def signin(request):
     else:
         context = {
             'signup_form': SignUpForm(),
-            'signin_form': signup_in,
+            'signin_form': sign_in,
             'is_authenticated': False,
         }
         return render(request, 'group10/html_files/index.html', context=context)
@@ -110,16 +103,6 @@ def courses(request):
         return render(request, 'group10/html_files/courses.html', context=context)
     else:
         return redirect(reverse("index_page"))
-
-
-class Video:
-    def __init__(self, id, title):
-        self.id = id
-        self.title = title
-        self.video_file = None
-
-    def set_video_file(self, video_file):
-        self.video_file = video_file
 
 
 def course_page(request, id):
@@ -158,6 +141,10 @@ def course_page(request, id):
                     course_videos.append(video)
 
         name = get_name(request)
+        objectives: list[str] = course.objectives.split('\n')
+        for i in range(len(objectives)):
+            if not objectives[i].startswith('-'):
+                objectives[i] = f'-{objectives[i]}'
 
         form = VideoForm()
         context = {
@@ -167,27 +154,13 @@ def course_page(request, id):
             'image_url': image_url,
             'course_videos': course_videos,
             'form': form,
-            'exams': exams
+            'exams': exams,
+            'objectives': objectives
         }
 
         return render(request, 'group10/html_files/course_page.html', context=context)
     else:
         return redirect(reverse("index_page"))
-
-
-class Course:
-    def __init__(self, name, description, objectives, id):
-        self.name = name
-        self.description = description
-        self.objectives = objectives
-        self.id = id
-        self.image_data = None
-
-    def set_image(self, image_data):
-        self.image_data = image_data
-
-
-C_SHARP_SERVER_URL = "http://your-csharp-server/api/courses/"
 
 
 def create_course(request):
@@ -228,6 +201,15 @@ def create_course(request):
 
         return render(request, 'group10/html_files/create_course.html', context=context)
 
+    else:
+        return redirect(reverse("index_page"))
+
+
+def delete_course(request, id):
+    if is_authenticated(request):
+        url = f"https://localhost:7071/Course/delete-course/{id}"
+        requests.delete(url, verify=False)
+        return redirect(reverse('courses'))
     else:
         return redirect(reverse("index_page"))
 
@@ -340,34 +322,40 @@ def create_exam(request, course_id):
 def exam_page(request, exam_id):
     if is_authenticated(request):
         url = f'https://localhost:7071/exam/get-exam/{exam_id}'
-        print("11111111111111111111111111111111111111111111111111111111111111")
         response = requests.get(url, verify=False)
 
         exam_json = response.json()
 
-        exam = Exam(name=exam_json['name'],subjects= exam_json['subjects'], course_id=exam_json['courseId'],exam_id= exam_json['id'])
+        exam = Exam(name=exam_json['name'], subjects=exam_json['subjects'], course_id=exam_json['courseId'],
+                    exam_id=exam_json['id'])
 
         questions = []
 
         url = f'https://localhost:7071/question/retrieve-questions/{exam_id}'
         response = requests.get(url, verify=False)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`")
-        print(response.status_code)
-        json_data=response.json()
+        json_data = response.json()
 
         for question in json_data:
-
             questions.append(
-                Question(test_id=question['testId'],question= question['question'],option1= question['option1'], option2=question['option2'],
-                        option3= question['option3'], option4=question['option4'],category= question['category']))
+                Question(test_id=question['testId'], id=question['id'],
+                         question=question['question'],
+                         option1=question['option1'],
+                         option2=question['option2'],
+                         option3=question['option3'], option4=question['option4'], category=question['category']))
+
         name = get_name(request)
 
+        subjects: list[str] = exam.subjects.split('\n')
+        for i in range(len(subjects)):
+            if not subjects[i].startswith('-'):
+                subjects[i] = f'-{subjects[i]}'
         context = {
             'name': name,
             'is_authenticated': True,
             'course_id': exam.course_id,
             'exam': exam,
-            'questions': questions
+            'questions': questions,
+            'subjects': subjects
         }
 
         return render(request, 'group10/html_files/exam_page.html', context=context)
@@ -382,6 +370,7 @@ def add_question(request, exam_id):
             if form.is_valid():
                 question_data = {
                     'testId': exam_id,
+                    'id': '',
                     'question': form.cleaned_data['question'],
                     'option1': form.cleaned_data['option1'],
                     'option2': form.cleaned_data['option2'],
@@ -391,7 +380,7 @@ def add_question(request, exam_id):
                 }
 
                 url = "https://localhost:7071/question/add-question"
-                response = requests.post(url,json=question_data, verify=False)
+                response = requests.post(url, json=question_data, verify=False)
                 return redirect(reverse('exam_page', args=[exam_id]))
         else:
             form = QuestionForm()
@@ -409,20 +398,31 @@ def add_question(request, exam_id):
         return redirect(reverse("index_page"))
 
 
-class Exam:
-    def __init__(self, name, subjects, course_id, exam_id):
-        self.name = name
-        self.subjects = subjects
-        self.course_id = course_id
-        self.exam_id = exam_id
+def delete_question(request, exam_id, question_id):
+    if is_authenticated(request):
+        url = f"https://localhost:7071/question/delete-question/{question_id}"
+        response = requests.delete(url, verify=False)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``")
+        print(question_id)
+        print(response.status_code)
+        return redirect(reverse('exam_page', kwargs={'exam_id': exam_id}))
+    else:
+        return redirect(reverse("index_page"))
 
 
-class Question:
-    def __init__(self, test_id, question, option1, option2, option3, option4, category):
-        self.test_id = test_id
-        self.question = question
-        self.option1 = option1
-        self.option2 = option2
-        self.option3 = option3
-        self.option4 = option4
-        self.category = category
+def delete_video(request, course_id, video_id):
+    if is_authenticated(request):
+        url = f"https://localhost:7071/course/delete-video/{video_id}"
+        requests.delete(url, verify=False)
+        return redirect(reverse('course_page', kwargs={'id': course_id}))
+    else:
+        return redirect(reverse("index_page"))
+
+
+def delete_exam(request, course_id, exam_id):
+    if is_authenticated(request):
+        url = f"https://localhost:7071/exam/delete-exam/{exam_id}"
+        requests.delete(url, verify=False)
+        return redirect(reverse('course_page', kwargs={'id': course_id}))
+    else:
+        return redirect(reverse("index_page"))
