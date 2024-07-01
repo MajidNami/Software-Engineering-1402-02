@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ note.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-details h1 {
+            margin-bottom: 1rem;
+        }
+
+        .note-details p {
+            margin-bottom: 1rem;
+        }
+
+        .note-details p small {
+            color: #777;
+        }
+
+        .actions {
+            margin-top: 1.5rem;
+        }
+
+        .actions a,
+        .actions button {
+            display: inline-block;
+            margin-right: 1rem;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            background-color: #007BFF;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .actions button:hover,
+        .actions a:hover {
+            background-color: #0056b3;
+        }
+
+        .actions form {
+            display: inline;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'article_list' %}">Articles</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="note-details">
+        <h1>{{ note.title }}</h1>
+        <p>{{ note.content }}</p>
+        <p><small>Created on: {{ note.created_at }}</small></p>
+        <div class="actions">
+            <a href="{% url 'note_update' note.pk %}">Edit</a>
+            <a href="{% url 'note_delete' note.pk %}">Delete</a>
+            <a href="{% url 'note_list' %}">Back to Notes List</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Notes Application. All rights reserved.</p>
+    </footer>
+</body>
+</html>

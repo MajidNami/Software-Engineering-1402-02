@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles in {{ category.name }}</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .articles {
+            margin-bottom: 2rem;
+        }
+
+        .articles-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .article-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            width: calc(33.333% - 2rem);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .article-card:hover {
+            transform: scale(1.02);
+        }
+
+        .article-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .article-card h3 {
+            margin: 0.5rem 0;
+        }
+
+        .article-card p {
+            margin: 0.2rem 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'article_list' %}">Articles</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="articles">
+            <h2>Articles in {{ category.name }}</h2>
+            <div class="articles-list">
+                {% for article in articles %}
+                    <div class="article-card">
+                        {% if article.picture %}
+                            <img src="{{ article.picture.url }}" alt="{{ article.title }}">
+                        {% endif %}
+                        <h3><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h3>
+                        <p>Category: {{ article.category.name }}</p>
+                        <p>Author: {{ article.author.name }}</p>
+                        <p>{{ article.published_date|date:"F d, Y" }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Newspaper. All rights reserved.</p>
+    </footer>
+</body>
+</html>

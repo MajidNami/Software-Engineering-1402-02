@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-details {
+            padding: 2rem;
+        }
+
+        .category-details p {
+            margin-bottom: 1rem;
+        }
+
+        .action-links {
+            margin-top: 1rem;
+        }
+
+        .action-links a {
+            display: inline-block;
+            margin-right: 1rem;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .action-links a:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'author_list' %}">Authors</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="category-details">
+            <h1>{{ category.name }}</h1>
+            <p>{{ category.description }}</p>
+            <div class="action-links">
+                <a href="{% url 'category_update' category.pk %}">Edit</a>
+                <a href="{% url 'category_delete' category.pk %}">Delete</a>
+                <a href="{% url 'category_list' %}">Back to list</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Newspaper. All rights reserved.</p>
+    </footer>
+</body>
+</html>

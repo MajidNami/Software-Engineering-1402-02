@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-list {
+            padding: 2rem;
+        }
+
+        .article-item {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1rem;
+        }
+
+        .article-item img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-item h2 {
+            margin-top: 0;
+        }
+
+        .article-item p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .article-item .category {
+            font-style: italic;
+        }
+
+        .article-item .author {
+            font-weight: bold;
+        }
+
+        .article-item .published-date {
+            font-size: 0.9rem;
+        }
+
+        .add-article-link {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 4rem;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007BFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .add-article-link:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 0.2rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Newspaper</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'author_list' %}">Authors</a></li>
+                <li><a href="{% url 'note_list' %}">Notes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="article-list">
+            <h1>Articles List</h1>
+            <ul>
+                {% for article in articles %}
+                    <li class="article-item">
+                        {% if article.picture %}
+                            <img src="{{ article.picture.url }}" alt="{{ article.title }}">
+                        {% endif %}
+                        <h2><a href="{% url 'article_detail' article.pk %}">{{ article.title }}</a></h2>
+                        <p class="category">Category: {{ article.category.name }}</p>
+                        <p class="author">Author: {{ article.author.name }}</p>
+                        <p class="published-date">Published on: {{ article.published_date }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <a href="{% url 'article_create' %}" class="add-article-link">Add new article</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Newspaper. All rights reserved.</p>
+    </footer>
+</body>
+</html>
