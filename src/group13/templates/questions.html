@@ -6,11 +6,47 @@
     <title>Questions</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .timer {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ff0000;
+            text-align: right;
+        }
+    </style>
+    <script>
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "Time remaining: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    document.getElementById("test-form").submit();
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            const timeLimit = 60 * 5; // 5 minutes
+            const display = document.querySelector('#time');
+            startTimer(timeLimit, display);
+        };
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Answer the following questions:</h1>
-        <form method="post" action="{% url 'submit_answers' %}">
+        <div class="timer">
+            <span id="time">05:00</span>
+        </div>
+        <form id="test-form" method="post" action="{% url 'submit_answers' %}">
             {% csrf_token %}
             <input type="hidden" name="user" value="{{ user }}">
             {% for question in questions %}
