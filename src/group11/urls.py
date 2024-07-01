@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('articles/<int:article_id>/comments/', CommentListView, name='comment_list'),
     path('articles/<int:article_id>/comments/new/', CommentCreateView, name='comment_create'),
+    # path('articles/<int:article_id>/comments/<int:comment_id>/delete/', CommentDeleteView, name='comment_delete'),
 
     path('notes/', NotesListView, name='note_list'),
     path('notes/<int:pk>/', NotesDetailView, name='note_detail'),

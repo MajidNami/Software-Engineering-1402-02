@@ -172,13 +172,15 @@ def CommentCreateView(request, article_id):
     return render(request, 'comments/comment_form.html', {'form': form, 'article': article})
 
 
-class CommentDeleteView(DeleteView):
-    model = Comment
-    template_name = 'newspaper/comment_confirm_delete.html'
-    success_url = reverse_lazy('article_list')
+def CommentDeleteView(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('comment_list')
+    return render(request, 'comments/comment_confirm_delete.html', {'comment': comment})
 
 
-@login_required
+# @login_required
 def NotesListView(request):
     # user = request.user
     # notes = Notes.objects.filter(user=user)
@@ -191,7 +193,7 @@ def NotesDetailView(request, pk):
     return render(request, 'notes/notes_detail.html', {'note': note})
 
 
-@login_required
+# @login_required
 def NotesCreateView(request):
     if request.method == 'POST':
         form = NotesForm(request.POST)

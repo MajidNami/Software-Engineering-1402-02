@@ -37,7 +37,7 @@ class Article(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='group11/templates/articles/picture', null=True, blank=True)
+    picture = models.ImageField(upload_to='group11/templates/articles/picture/', null=True, blank=True)
 
     def __str__(self):
         return self.title
