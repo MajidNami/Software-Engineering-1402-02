@@ -26,7 +26,23 @@ def getHistory(request):
         data = dict(username=username)
         r = requests.post('http://localhost:8080/chat/chatHistory', json=data)
         if r.status_code == 200:
-            a = r.json()['chatInfoList']
-            res = '\n'.join([str(ele) for ele in a])
-            return HttpResponse(res, content_type="text/plain")
+            chat_info_list = r.json()['chatInfoList']
+            # Filter out the chat partner's information
+            filtered_chat_info_list = []
+            for item in chat_info_list:
+                if item['firstUsername'] == username:
+                    chat_partner = {
+                        'username': item['secondUsername'],
+                        'userId': item['secondUserId']
+                    }
+                else:
+                    chat_partner = {
+                        'username': item['firstUsername'],
+                        'userId': item['firstUserId']
+                    }
+                filtered_chat_info_list.append(chat_partner)
+            context = {'history_data': filtered_chat_info_list}
+            return render(request, 'chat_history/Chathistory.html', context)
         return HttpResponse(f'ERROR {r.status_code}')
+    else:
+        return HttpResponse('Method not allowed', status=405)

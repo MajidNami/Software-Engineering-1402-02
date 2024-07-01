@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat History</title>
+    
+    <!-- Stylesheets -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link rel="stylesheet" href="Login%20Page_files/all.min.css">
+    <link href="Login%20Page_files/css2.css" rel="stylesheet">
+
+    <!-- Inline Styles -->
+    <style media="screen">
+        *,
+        *:before,
+        *:after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #080710;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.13);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h3 {
+            font-size: 32px;
+            font-weight: 500;
+            line-height: 42px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        th, td {
+            padding: 15px;
+            text-align: center;
+        }
+        th {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        td {
+            background-color: rgba(255, 255, 255, 0.07);
+        }
+        a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Chat History</h3>
+        
+        <!-- Dynamic content from server -->
+        {% if history_data %}
+            {% if history_data|length > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in history_data %}
+                            <tr>
+                                <td>{{ item.userId }}</td>
+                                <td>{{ item.username }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No chat history available.</p>
+            {% endif %}
+        {% else %}
+            <p>No data passed to template.</p>
+        {% endif %}
+
+        <a href="/" onclick="if (history.length > 1) { history.back(); return false; }">Go back</a>
+    </div>
+</body>
+</html>
