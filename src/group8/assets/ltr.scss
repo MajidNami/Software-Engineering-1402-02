@@ -1,0 +1,86 @@
+.NotRtl {
+
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.ButtonRTL {
+  flex-direction: row-reverse;
+}
+.p-button-icon-left {
+  margin-left: 0.5rem;
+}
+.p-button-icon-right {
+  margin-right: 0.5rem;
+}
+.p-datatable {
+  .p-column-header-content {
+    justify-content: center;
+  }
+  .p-sortable-column .p-sortable-column-icon {
+
+    margin-left: 0;
+    margin-right: .5rem;
+  }
+
+
+  .p-datatable-tbody > tr > td {
+    text-align: center;
+
+
+
+  }
+}
+.p-paginator-bottom{
+
+  svg.p-paginator-icon{
+    rotate: 180deg;
+  }
+}
+.p-treetable{
+  .p-treetable-toggler{
+    margin-right: 0;
+    margin-left: .5rem;
+  }
+}
+.p-treetable-checkbox{
+  margin-right: 0;
+  margin-left: .5rem;
+}
+.p-button .p-badge{
+  margin-right: .5rem;
+  margin-left: 0;
+}
+.p-tag .p-tag-icon:not(:last-child) {
+  margin-right: 0;
+  margin-left: .25rem;
+}
+.p-chip{
+  img{
+   margin: 0;
+   margin-left: .25rem;
+ }
+  .p-chip-icon{
+    margin: 0;
+    margin-left: .25rem;
+  }
+}
+.p-fieldset.p-fieldset-toggleable .p-fieldset-legend a .p-fieldset-toggler {
+  margin: 0;
+  margin-left: .25rem;
+}
+.p-icon-field-right{  .p-input-icon:last-of-type{
+  right: auto;
+  left: 0.75rem;
+}}
+.formgroup-inline .field, .formgroup-inline .field-checkbox, .formgroup-inline .field-radiobutton {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+  .p-carousel .p-carousel-content .p-carousel-prev, .p-carousel .p-carousel-content .p-carousel-next {
+    svg{
+      rotate: 180deg;
+
+    }
+  }
