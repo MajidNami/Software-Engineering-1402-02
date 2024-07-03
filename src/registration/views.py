@@ -6,7 +6,8 @@ from django.db import IntegrityError
 from .secret import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
 from database.query import *
 # Create your views here.
-
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 
@@ -34,7 +35,9 @@ def SignupPage(request):
                 my_user.save()
                 mydb = create_db_connection(DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
                 save_user(mydb, name, uname, pass1, email, age)
-                return redirect('login')
+                login(request, my_user)
+                url = reverse('submit_answers') + f'?user={my_user}'
+                return HttpResponseRedirect(url)
             except IntegrityError:
                 return HttpResponse("An error occurred while creating your account. Please try again.")
     

@@ -11,3 +11,5 @@ mysql-connector-python
 SpeechRecognition 
 pydub
 requests
+mysqlclient
+mysql-connector-python
