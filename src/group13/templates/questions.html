@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .timer {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #ff0000;
+            text-align: right;
+        }
+    </style>
+    <script>
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = "Time remaining: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    document.getElementById("test-form").submit();
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            const timeLimit = 60 * 5; // 5 minutes
+            const display = document.querySelector('#time');
+            startTimer(timeLimit, display);
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Answer the following questions:</h1>
+        <div class="timer">
+            <span id="time">05:00</span>
+        </div>
+        <form id="test-form" method="post" action="{% url 'submit_answers' %}">
+            {% csrf_token %}
+            <input type="hidden" name="user" value="{{ user }}">
+            {% for question in questions %}
+                <div class="question-block">
+                    <p class="question-text">{{ question.text }}</p>
+                    {% for choice in question.choice_set.all %}
+                        <div class="choice">
+                            <input type="radio" id="choice_{{ choice.id }}" name="question_{{ question.id }}" value="{{ choice.id }}">
+                            <label for="choice_{{ choice.id }}">{{ choice.text }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
